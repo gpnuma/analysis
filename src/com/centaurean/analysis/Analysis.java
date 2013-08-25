@@ -39,7 +39,7 @@ import java.util.TreeMap;
 public class Analysis {
     enum MODES {RARE_SEARCH, DICTIONARY_PRELOAD}
 
-    private static final boolean LOG = true;
+    private static final boolean LOG = false;
     private static final MODES mode = MODES.DICTIONARY_PRELOAD;
 
     public static boolean isPrime(long n) {
@@ -59,6 +59,9 @@ public class Analysis {
 
         File directory = new File(args[0]);
         File[] list = directory.listFiles();
+        if (list == null)
+            throw new IOException();
+
         for (File file : list) {
 
             System.out.println(file.getAbsolutePath());
