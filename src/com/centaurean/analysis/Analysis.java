@@ -93,12 +93,15 @@ public class Analysis {
             }
         }
 
+        System.out.print("Sorting dictionary ... ");
         sorted_dictionary.putAll(dictionary);
+        System.out.println("OK");
 
         if (LOG) {
+            System.out.print("Creating log ... ");
             File out = new File("preload.log");
             boolean created = out.createNewFile();
-            if (created) {
+            if (out.exists()) {
                 BufferedWriter logWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(out)));
 
                 for (ByteArray key : sorted_dictionary.keySet()) {
@@ -109,13 +112,14 @@ public class Analysis {
 
                 logWriter.close();
             }
+            System.out.println("OK");
         }
 
         switch (mode) {
             case RARE_SEARCH:
                 Random r = new Random();
                 int limit = 256;
-                while (--limit >= 0) {
+                while (limit >= 0) {
                     byte[] newKey = new byte[4];
                     r.nextBytes(newKey);
                     ByteArray key = new ByteArray(newKey);
@@ -123,6 +127,7 @@ public class Analysis {
                         if (dictionary.get(key) == null) {
                             byte[] reverse = new byte[]{key.getArray()[3], key.getArray()[2], key.getArray()[1], key.getArray()[0]};
                             System.out.println("Not found : " + key.toString() + " (" + new String(reverse) + ")");
+                            limit--;
                         }
                     }
                 }
@@ -130,6 +135,7 @@ public class Analysis {
             case DICTIONARY_PRELOAD:
                 long[] dictionaryImage = new long[65536];
 
+                System.out.print("Preparing hash dictionary ... ");
                 HashSet<Long> uniqueHashes = new HashSet<>();
                 for (ByteArray key : sorted_dictionary.keySet()) {
                     if (!uniqueHashes.contains(key.sharcHash())) {
@@ -137,10 +143,11 @@ public class Analysis {
                         dictionaryImage[(int) key.sharcHash()] = key.toLong();
                     }
                 }
+                System.out.println("OK");
 
                 File preload = new File("preload.data");
                 boolean created = preload.createNewFile();
-                if (created) {
+                if (preload.exists()) {
                     BufferedWriter preloadWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(preload)));
                     preloadWriter.write("#define SHARC_DICTIONARY {");
                     for (int i = 0; i < dictionaryImage.length; i++) {
