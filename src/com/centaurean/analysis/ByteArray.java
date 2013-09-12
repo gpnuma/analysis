@@ -33,7 +33,7 @@ import java.util.Arrays;
  * 16/08/13 23:24
  */
 public class ByteArray {
-    private static final long SHARC_XOR_MASK = 0x2AE2752F;
+    private static final long SHARC_XOR_MASK = 0x00000000;//0x2AE2752F;//
     private static final long SHARC_HASH_BITS = 16;
     private static final long SHARC_HASH_OFFSET_BASIS = 2166115717l;
     private static final long SHARC_HASH_PRIME = 16777619;

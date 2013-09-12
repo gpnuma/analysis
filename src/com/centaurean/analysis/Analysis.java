@@ -154,7 +154,7 @@ public class Analysis {
                         long data = dictionaryImage[i];
                         if (i > 0)
                             preloadWriter.write(", ");
-                        preloadWriter.write("0x" + Long.toHexString(data).toUpperCase());
+                        preloadWriter.write("{0x" + Long.toHexString(0x100000000l | data).substring(1).toUpperCase() + "}");
                     }
                     preloadWriter.write("}");
                     preloadWriter.close();
