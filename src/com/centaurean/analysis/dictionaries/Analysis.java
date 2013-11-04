@@ -1,4 +1,4 @@
-package com.centaurean.analysis;
+package com.centaurean.analysis.dictionaries;
 
 import java.io.*;
 import java.util.HashMap;
